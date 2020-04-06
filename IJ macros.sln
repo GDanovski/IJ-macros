@@ -5,19 +5,19 @@ VisualStudioVersion = 15.0.28307.779
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6500C962-BC3D-4D10-9CCD-F45B65E11C37}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Macros", "Macros", "{68516311-900F-4583-B733-4FB0E6991978}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Macros", "Macros", "{B68F5852-C3FE-463A-8751-230286E0AD73}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\MyOldPrograms_20_08_18\IJ plugins\Add_ROI_plugin.ijm = ..\..\MyOldPrograms_20_08_18\IJ plugins\Add_ROI_plugin.ijm
-		..\..\..\Desktop\OldComp\Work\Data_after 06_2016\DoubleHit\final_results\MDC1\SurfacePlots\MDC1_test\AutoSmooth.ijm = ..\..\..\Desktop\OldComp\Work\Data_after 06_2016\DoubleHit\final_results\MDC1\SurfacePlots\MDC1_test\AutoSmooth.ijm
-		..\..\MyOldPrograms_20_08_18\IJ plugins\Create_composite_image.ijm = ..\..\MyOldPrograms_20_08_18\IJ plugins\Create_composite_image.ijm
-		..\..\MyOldPrograms_20_08_18\IJ plugins\EasyFrapMacro.ijm = ..\..\MyOldPrograms_20_08_18\IJ plugins\EasyFrapMacro.ijm
-		..\..\MyOldPrograms_20_08_18\IJ plugins\ImportImage.ijm = ..\..\MyOldPrograms_20_08_18\IJ plugins\ImportImage.ijm
-		..\..\MyOldPrograms_20_08_18\IJ plugins\MakeMontage.ijm = ..\..\MyOldPrograms_20_08_18\IJ plugins\MakeMontage.ijm
-		..\..\MyOldPrograms_20_08_18\IJ plugins\MultiReg.ijm = ..\..\MyOldPrograms_20_08_18\IJ plugins\MultiReg.ijm
-		..\..\..\Desktop\OldComp\Work\Data_after 06_2016\DoubleHit\final_results\MDC1\2020-01-21_doubleHit\results_MDC1_doubleHit\MultiReg_v1.1.ijm = ..\..\..\Desktop\OldComp\Work\Data_after 06_2016\DoubleHit\final_results\MDC1\2020-01-21_doubleHit\results_MDC1_doubleHit\MultiReg_v1.1.ijm
-		..\..\MyOldPrograms_20_08_18\IJ plugins\ROI_devider.ijm = ..\..\MyOldPrograms_20_08_18\IJ plugins\ROI_devider.ijm
-		..\..\MyOldPrograms_20_08_18\IJ plugins\ROI_divider.ijm = ..\..\MyOldPrograms_20_08_18\IJ plugins\ROI_divider.ijm
-		..\..\MyOldPrograms_20_08_18\IJ plugins\ROI_drawer.ijm = ..\..\MyOldPrograms_20_08_18\IJ plugins\ROI_drawer.ijm
+		Macros\Add_ROI_plugin.ijm = Macros\Add_ROI_plugin.ijm
+		Macros\AutoSmooth.ijm = Macros\AutoSmooth.ijm
+		Macros\Create_composite_image.ijm = Macros\Create_composite_image.ijm
+		Macros\EasyFrapMacro.ijm = Macros\EasyFrapMacro.ijm
+		Macros\ImportImage.ijm = Macros\ImportImage.ijm
+		Macros\MakeMontage.ijm = Macros\MakeMontage.ijm
+		Macros\MultiReg.ijm = Macros\MultiReg.ijm
+		Macros\MultiReg_v1.1.ijm = Macros\MultiReg_v1.1.ijm
+		Macros\ROI_devider.ijm = Macros\ROI_devider.ijm
+		Macros\ROI_divider.ijm = Macros\ROI_divider.ijm
+		Macros\ROI_drawer.ijm = Macros\ROI_drawer.ijm
 	EndProjectSection
 EndProject
 Global
@@ -25,7 +25,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{68516311-900F-4583-B733-4FB0E6991978} = {6500C962-BC3D-4D10-9CCD-F45B65E11C37}
+		{B68F5852-C3FE-463A-8751-230286E0AD73} = {6500C962-BC3D-4D10-9CCD-F45B65E11C37}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83DC9943-1CD2-4F2C-B75F-D752B077692F}
