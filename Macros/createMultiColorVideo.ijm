@@ -220,6 +220,7 @@ for (i = 0; i < imageIDs.length; i++) {
     close();
     selectWindow(title + "_result");
     run("AVI... ", "compression=JPEG frame=24 save=" + path);
+    //run("AVI... ", "compression=None frame=24 save=" + replaceExtension(path, "_None.avi"));
     print("File saved: " + path);
 }
 
