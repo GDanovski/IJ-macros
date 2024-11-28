@@ -23,7 +23,7 @@ Dialog.addNumber("Image scale:", 2);
 Dialog.addNumber("Frames before HU:", 29);
 Dialog.addNumber("Frames in HU", 121);
 Dialog.addNumber("From that frame the frames ar 1 min, not 30 sec.", 30 + 120 + 120);
-Dialog.addString("Inhibitors:", "AZD+KU");
+Dialog.addString("Inhibitors:", "AZD+KU+Mirin+BMN673");
 
 Dialog.show();
 
@@ -41,6 +41,8 @@ framesBeforeHu = Dialog.getNumber();
 imageInHu = Dialog.getNumber();
 borderTime = Dialog.getNumber();
 inhibitors = Dialog.getString();
+
+inhibitorsArr = split(inhibitors, "+");
 
 // Adjust font size and error bar dimensions based on image scale
 fontSize *= imageScale;
@@ -72,6 +74,19 @@ for (i = 0; i < imageIDs.length; i++) {
     
     // Get the title of the current image
     title = getTitle();
+
+    // Check if the title contains any of the inhibitors
+	inhibitors = "";
+	for (j = 0; j < lengthOf(inhibitorsArr); j++) {
+    	if (indexOf(title, inhibitorsArr[j]) != -1) {
+    		if(inhibitors == "") {    			
+        		inhibitors += inhibitorsArr[j];        		
+    		}
+    		else{
+    			inhibitors += "+" + inhibitorsArr[j];
+    		}
+    	}
+	}
     
     // Get the directory of the current image
     path = getInfo("image.directory") + replaceExtension(title, ".avi");
@@ -229,7 +244,12 @@ for (i = 0; i < imageIDs.length; i++) {
         
         curInibitors = inhibitors;
         if (frame >framesBeforeHu && frame <=imageInHu+framesBeforeHu) {
-        	curInibitors += "+HU";
+        	if (curInibitors == "") {        		
+        		curInibitors += "HU";
+        	}
+        	else{        		
+        		curInibitors += "+HU";
+        	}
         }
         
         if (withTime == true) {
