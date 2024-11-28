@@ -19,9 +19,9 @@ Dialog.addString("Protein 1:", "RAD18");
 Dialog.addString("Protein 2:", "PCNA");
 Dialog.addNumber("Error bar width:", 25);
 Dialog.addNumber("Error bar height:", 12);
-Dialog.addNumber("Image scale:", 4);
-Dialog.addNumber("Frames before HU:", 30);
-Dialog.addNumber("Frames in HU", 120);
+Dialog.addNumber("Image scale:", 2);
+Dialog.addNumber("Frames before HU:", 29);
+Dialog.addNumber("Frames in HU", 121);
 Dialog.addNumber("From that frame the frames ar 1 min, not 30 sec.", 30 + 120 + 120);
 Dialog.addString("Inhibitors:", "AZD+KU");
 
@@ -165,6 +165,8 @@ for (i = 0; i < imageIDs.length; i++) {
     selectWindow(title + "_result");
     errorBarWidth = getWidth() - errorBarWidth;
     errorBarHeight = getHeight() - errorBarHeight;
+
+    exitFrame = 0;
     
     // Loop through each frame to add text and scale bar
     for (frame = 1; frame <= nSlices; frame++) {
@@ -177,11 +179,17 @@ for (i = 0; i < imageIDs.length; i++) {
         
         // Calculate the time in sec
         time = frame - 1;
+
         border = borderTime;
         if (time <= border) {
             time = time * 30;
         } else {
             time = border * 30 + (time - border) * 60;
+        }
+
+        if (time > (120 * 60)) {
+        	exitFrame = frame;
+        	break;
         }
 
 		// recalculate the time per phase
@@ -213,9 +221,10 @@ for (i = 0; i < imageIDs.length; i++) {
         text += " " + timeUnit;
         
         // Draw string to the image
-        xPos = 2;
-        xPosTime = width / 3 - 4 - getStringWidth(text);
+        xPos = 2 * imageScale;
+        xPosTime = width / 3 - 4 * imageScale - getStringWidth(text);
         yPosProtNames = height - 2;
+        xPosProtNames = width/6;
         yPos = fontSize + 2;
         
         curInibitors = inhibitors;
@@ -227,19 +236,19 @@ for (i = 0; i < imageIDs.length; i++) {
         	drawString(text, xPos + xPosTime, yPos);
         }
         drawString(curInibitors, xPos, yPos);
-        drawString(protein1, xPos, yPosProtNames);
+        drawString(protein1, xPos + xPosProtNames - getStringWidth(protein1)/2, yPosProtNames);
+        xPos += width / 3;
+        if (withTime == true) {
+        	drawString(text, xPos + xPosTime, yPos);
+        }
+        drawString(curInibitors, xPos, yPos);
+        drawString("Merged", xPos + xPosProtNames - getStringWidth("Merged")/2, yPosProtNames);
         xPos += width / 3;
         if (withTime == true) {
         	drawString(text, xPos+ xPosTime, yPos);
         }
         drawString(curInibitors, xPos, yPos);
-        drawString("Merged", xPos, yPosProtNames);
-        xPos += width / 3;
-        if (withTime == true) {
-        	drawString(text, xPos+ xPosTime, yPos);
-        }
-        drawString(curInibitors, xPos, yPos);
-        drawString(protein2, xPos, yPosProtNames);
+        drawString(protein2, xPos + xPosProtNames - getStringWidth(protein2)/2, yPosProtNames);
         drawString("5 µm", errorBarWidth, yPosProtNames);
         
         // Add scale bar
@@ -257,8 +266,9 @@ for (i = 0; i < imageIDs.length; i++) {
     selectWindow(title + "_G");
     close();
     selectWindow(title + "_result");
+    run("Slice Remover", "first="+ exitFrame + " last=" + nSlices + " increment=1");
     run("AVI... ", "compression=JPEG frame=10 save=[" + path + "]");
-    //run("AVI... ", "compression=None frame=10 save=[" + replaceExtension(path, "_None.avi") + "]");
+    run("AVI... ", "compression=None frame=10 save=[" + replaceExtension(path, "_None.avi") + "]");
     print("File saved: " + path);
 }
 
