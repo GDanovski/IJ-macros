@@ -10,7 +10,7 @@
 Dialog.create("Font Settings");
 fontTypes = newArray("SansSerif", "Serif", "Monospaced");
 Dialog.addChoice("Font Type:", fontTypes, "SansSerif");
-Dialog.addNumber("Font Size:", 10);
+Dialog.addNumber("Font Size:", 8);
 timeUnits = newArray("sec", "min");
 Dialog.addChoice("Time Unit:", timeUnits, "min");
 decimalDigitTypes = newArray("true", "false");
@@ -18,8 +18,13 @@ Dialog.addChoice("Always show decimal digits:", decimalDigitTypes, "true");
 Dialog.addString("Protein 1:", "RAD18");
 Dialog.addString("Protein 2:", "PCNA");
 Dialog.addNumber("Error bar width:", 25);
-Dialog.addNumber("Error bar height:", 16);
+Dialog.addNumber("Error bar height:", 12);
 Dialog.addNumber("Image scale:", 4);
+Dialog.addNumber("Frames before HU:", 30);
+Dialog.addNumber("Frames in HU", 120);
+Dialog.addNumber("From that frame the frames ar 1 min, not 30 sec.", 30 + 120 + 120);
+Dialog.addString("Inhibitors:", "AZD+KU");
+
 Dialog.show();
 
 // Retrieve dialog inputs
@@ -32,6 +37,10 @@ protein2 = Dialog.getString();
 errorBarWidth = Dialog.getNumber();
 errorBarHeight = Dialog.getNumber();
 imageScale = Dialog.getNumber();
+framesBeforeHu = Dialog.getNumber();
+imageInHu = Dialog.getNumber();
+borderTime = Dialog.getNumber();
+inhibitors = Dialog.getString();
 
 // Adjust font size and error bar dimensions based on image scale
 fontSize *= imageScale;
@@ -168,13 +177,27 @@ for (i = 0; i < imageIDs.length; i++) {
         
         // Calculate the time in sec
         time = frame - 1;
-        border = 30 + 120 + 120;
+        border = borderTime;
         if (time <= border) {
             time = time * 30;
         } else {
             time = border * 30 + (time - border) * 60;
         }
+
+		// recalculate the time per phase
+		withTime = true;
+        if (frame <= framesBeforeHu) {
+        	time = 0;
+        	withTime = false;
+        }
+        else if (frame <=imageInHu+framesBeforeHu) {
+        	time -= framesBeforeHu*30;
+        }
+        else {
+        	time -= framesBeforeHu*30 + imageInHu*30;
+        }
         
+        // convert time from s to min
         if (timeUnit == "min") {
             time /= 60;
         }
@@ -191,16 +214,31 @@ for (i = 0; i < imageIDs.length; i++) {
         
         // Draw string to the image
         xPos = 2;
+        xPosTime = width / 3 - 4 - getStringWidth(text);
         yPosProtNames = height - 2;
         yPos = fontSize + 2;
         
-        drawString(text, xPos, yPos);
+        curInibitors = inhibitors;
+        if (frame >framesBeforeHu && frame <=imageInHu+framesBeforeHu) {
+        	curInibitors += "+HU";
+        }
+        
+        if (withTime == true) {
+        	drawString(text, xPos + xPosTime, yPos);
+        }
+        drawString(curInibitors, xPos, yPos);
         drawString(protein1, xPos, yPosProtNames);
         xPos += width / 3;
-        drawString(text, xPos, yPos);
+        if (withTime == true) {
+        	drawString(text, xPos+ xPosTime, yPos);
+        }
+        drawString(curInibitors, xPos, yPos);
         drawString("Merged", xPos, yPosProtNames);
         xPos += width / 3;
-        drawString(text, xPos, yPos);
+        if (withTime == true) {
+        	drawString(text, xPos+ xPosTime, yPos);
+        }
+        drawString(curInibitors, xPos, yPos);
         drawString(protein2, xPos, yPosProtNames);
         drawString("5 µm", errorBarWidth, yPosProtNames);
         
@@ -219,8 +257,8 @@ for (i = 0; i < imageIDs.length; i++) {
     selectWindow(title + "_G");
     close();
     selectWindow(title + "_result");
-    run("AVI... ", "compression=JPEG frame=24 save=" + path);
-    //run("AVI... ", "compression=None frame=24 save=" + replaceExtension(path, "_None.avi"));
+    run("AVI... ", "compression=JPEG frame=10 save=[" + path + "]");
+    //run("AVI... ", "compression=None frame=10 save=[" + replaceExtension(path, "_None.avi") + "]");
     print("File saved: " + path);
 }
 
