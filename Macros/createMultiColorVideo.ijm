@@ -15,14 +15,14 @@ timeUnits = newArray("sec", "min");
 Dialog.addChoice("Time Unit:", timeUnits, "min");
 decimalDigitTypes = newArray("true", "false");
 Dialog.addChoice("Always show decimal digits:", decimalDigitTypes, "true");
-Dialog.addString("Protein 1:", "RAD18");
+Dialog.addString("Protein 1:", "RPA");
 Dialog.addString("Protein 2:", "PCNA");
 Dialog.addNumber("Error bar width:", 25);
 Dialog.addNumber("Error bar height:", 12);
 Dialog.addNumber("Image scale:", 2);
-Dialog.addNumber("Frames before HU:", 29);
-Dialog.addNumber("Frames in HU", 121);
-Dialog.addNumber("From that frame the frames ar 1 min, not 30 sec.", 30 + 120 + 120);
+Dialog.addNumber("Frames before HU:", 14);
+Dialog.addNumber("Frames in HU", 181);
+Dialog.addNumber("From that frame the frames are 1 min, not 30 sec.", 15 + 180 + 120);
 Dialog.addString("Inhibitors:", "AZD+KU+Mirin+BMN673");
 
 Dialog.show();
@@ -197,12 +197,12 @@ for (i = 0; i < imageIDs.length; i++) {
 
         border = borderTime;
         if (time <= border) {
-            time = time * 30;
+            time = time * 60;
         } else {
             time = border * 30 + (time - border) * 60;
         }
 
-        if (time > (120 * 60)) {
+        if (time > (240 * 60)) {
         	exitFrame = frame;
         	break;
         }
@@ -214,10 +214,10 @@ for (i = 0; i < imageIDs.length; i++) {
         	withTime = false;
         }
         else if (frame <=imageInHu+framesBeforeHu) {
-        	time -= framesBeforeHu*30;
+        	time -= framesBeforeHu*60;
         }
         else {
-        	time -= framesBeforeHu*30 + imageInHu*30;
+        	time -= framesBeforeHu*60 + imageInHu*60;
         }
         
         // convert time from s to min
